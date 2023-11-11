@@ -1,0 +1,1 @@
+export const serverError='Error en el servidor al intentar conectar con la base de datos'
