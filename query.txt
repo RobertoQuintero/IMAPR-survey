@@ -1,0 +1,139 @@
+USE [IMAPR]
+GO
+/****** Object:  Schema [Auth]    Script Date: 11/11/2023 02:30:50 p. m. ******/
+CREATE SCHEMA [Auth]
+GO
+/****** Object:  Schema [Cat]    Script Date: 11/11/2023 02:30:50 p. m. ******/
+CREATE SCHEMA [Cat]
+GO
+/****** Object:  Table [Auth].[Users]    Script Date: 11/11/2023 02:30:50 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [Auth].[Users](
+	[id_user] [int] NOT NULL,
+	[id_role] [tinyint] NOT NULL,
+	[name] [varchar](100) NULL,
+	[email] [varchar](100) NULL,
+	[password] [varchar](100) NULL,
+	[phone] [varchar](15) NULL,
+	[address] [varchar](300) NULL,
+	[postal_code] [varchar](10) NULL,
+	[image_url] [varchar](300) NULL,
+	[created_at] [datetime] NULL,
+	[updated_at] [datetime] NULL,
+	[status] [bit] NULL,
+ CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED 
+(
+	[id_user] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [Cat].[Payment_ways]    Script Date: 11/11/2023 02:30:50 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [Cat].[Payment_ways](
+	[id_payment_way] [tinyint] NOT NULL,
+	[description] [varchar](50) NULL,
+	[status] [bit] NULL,
+ CONSTRAINT [PK_Payment_ways] PRIMARY KEY CLUSTERED 
+(
+	[id_payment_way] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [Cat].[Providers]    Script Date: 11/11/2023 02:30:50 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [Cat].[Providers](
+	[id_provider] [int] NOT NULL,
+	[key_string] [varchar](50) NULL,
+	[legal_name] [varchar](300) NULL,
+	[tax_id] [varchar](50) NULL,
+	[description] [varchar](300) NULL,
+	[sales_agent] [varchar](300) NULL,
+	[phone] [varchar](20) NULL,
+	[name] [varchar](100) NULL,
+	[status] [bit] NULL,
+	[created_at] [datetime] NULL,
+	[updated_at] [datetime] NULL,
+	[id_payment_way] [tinyint] NULL,
+	[rank] [int] NULL,
+	[street] [varchar](50) NULL,
+	[neighborhood] [varchar](50) NULL,
+	[exterior] [varchar](20) NULL,
+	[city] [varchar](50) NULL,
+	[state] [varchar](50) NULL,
+	[zip] [varchar](10) NULL,
+	[id_tax_system] [tinyint] NULL,
+	[email] [varchar](50) NULL,
+ CONSTRAINT [PK_Providers] PRIMARY KEY CLUSTERED 
+(
+	[id_provider] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [Cat].[Roles]    Script Date: 11/11/2023 02:30:50 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [Cat].[Roles](
+	[id_role] [int] NOT NULL,
+	[description] [varchar](50) NULL,
+	[status] [bit] NULL,
+ CONSTRAINT [PK_Roles] PRIMARY KEY CLUSTERED 
+(
+	[id_role] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [Cat].[Tax_systems]    Script Date: 11/11/2023 02:30:50 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [Cat].[Tax_systems](
+	[id_tax_system] [tinyint] NOT NULL,
+	[tax_system_key] [varchar](10) NULL,
+	[tax_system_name] [varchar](100) NULL,
+	[status] [bit] NULL,
+ CONSTRAINT [PK_Tax_systems] PRIMARY KEY CLUSTERED 
+(
+	[id_tax_system] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+INSERT [Auth].[Users] ([id_user], [id_role], [name], [email], [password], [phone], [address], [postal_code], [image_url], [created_at], [updated_at], [status]) VALUES (1, 1, N'Arely Herrera', N'arely@test.com', N'$2b$10$bgp9RG09rye83T8RvBXV6uQj06c.JobJS7QHSslrdX83g.uPRhOEe', N'7821385220', N'Calle Reforma Poza Rica Veracruz', N'93210', N'https://res.cloudinary.com/dmq9e2wuv/image/upload/v1697061904/belisario/ln1uxluznhfhzbxfoa8z.png', CAST(N'2023-11-10T21:45:28.433' AS DateTime), CAST(N'2023-11-10T21:45:28.433' AS DateTime), 1)
+GO
+INSERT [Cat].[Payment_ways] ([id_payment_way], [description], [status]) VALUES (1, N'CONTADO', 1)
+GO
+INSERT [Cat].[Payment_ways] ([id_payment_way], [description], [status]) VALUES (2, N'CRÉDITO', 1)
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (1, N'IMA-PRO-0001', N'PERFILES DE FIERRO Y LÁMINA ATIYE S.A DE C.V', N'PFL981207AX5', N'Tubería, perfiles y materiales de acero y lámina', N'SANDY GARCÍA SANTIAGO JIMPENEZ', N'7822099934', N'ATIYE', 1, CAST(N'2023-11-11T19:11:40.387' AS DateTime), CAST(N'2023-11-11T20:02:45.993' AS DateTime), 2, 0, N'CARR. NACIONAL MEXICO-TUXPAN', N' PLAN DE AYALA', N'50', N'TIHUATLAN ', N'VERACRUZ', N'92900', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (2, N'IMA-PRO-0002', N'PINGOL S.A DE C.V', N'PIN890428VE7', N'Pintura', N'María Elisa Váquez Martínez', N'7821115341', N'COMEX', 1, CAST(N'2023-11-11T19:16:25.907' AS DateTime), CAST(N'2023-11-11T20:14:48.377' AS DateTime), 2, 0, N'BLVD. ADOLFO RUÍZ CORTINES', N'LA RUEDA', N'4499', N' POZA RICA DE HIDALGO', N'VERACRUZ', N'93306', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (3, N'IMA-PRO-0003', N'FERRETERA Y MAQUINARIA POSADAS S.A DE C.V', N'FMP051110UB6', N'Ferretera y maquinaria', N'Mostrador', N'7828221873', N'CATORSA', 1, CAST(N'2023-11-11T20:13:02.627' AS DateTime), CAST(N'2023-11-11T20:13:02.627' AS DateTime), 1, 0, N'BLVD. ADOLFO RUÍZ CORTINES', N'27 DE SEPTIEMBRE', N'801-INTERIOR 4', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93320', 1, N'')
+GO
+INSERT [Cat].[Roles] ([id_role], [description], [status]) VALUES (1, N'SUPER-ADMIN', 1)
+GO
+INSERT [Cat].[Roles] ([id_role], [description], [status]) VALUES (2, N'ADMIN', 1)
+GO
+INSERT [Cat].[Roles] ([id_role], [description], [status]) VALUES (3, N'USER', 1)
+GO
+INSERT [Cat].[Tax_systems] ([id_tax_system], [tax_system_key], [tax_system_name], [status]) VALUES (1, N'601', N'General de Ley Personas Morales', 1)
+GO
+INSERT [Cat].[Tax_systems] ([id_tax_system], [tax_system_key], [tax_system_name], [status]) VALUES (2, N'612', N'Personas Físicas con Actividades Empresariales y Profesionales', 1)
+GO
+INSERT [Cat].[Tax_systems] ([id_tax_system], [tax_system_key], [tax_system_name], [status]) VALUES (3, N'626', N'Régimen Simplificado de Confianza', 1)
+GO
+INSERT [Cat].[Tax_systems] ([id_tax_system], [tax_system_key], [tax_system_name], [status]) VALUES (4, N'603', N'Personas Morales con Fines no Lucrativos', 1)
+GO
+INSERT [Cat].[Tax_systems] ([id_tax_system], [tax_system_key], [tax_system_name], [status]) VALUES (5, N'611', N'Ingresos por Dividendos (socios y accionistas)', 1)
+GO
