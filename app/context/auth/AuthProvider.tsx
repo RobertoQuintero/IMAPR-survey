@@ -5,6 +5,7 @@ import { loginRequest, registerRequest, validateTokenRequest } from './authReque
 import { authReducer } from './authReducer';
 import { AuthContext } from './AuthContext';
 import Cookies from 'js-cookie'
+import { useRouter } from 'next/navigation';
 
 interface Props{
   children:JSX.Element|JSX.Element[]
@@ -27,7 +28,7 @@ const Auth_INITIAL_STATE:AuthState={
 
 export const AuthProvider = ({children}:Props) => {
   const [state, dispatch] = useReducer(authReducer, Auth_INITIAL_STATE)
- 
+ const router = useRouter()
   useEffect(() => {
     checkToken()
   }, [])
@@ -41,6 +42,7 @@ export const AuthProvider = ({children}:Props) => {
       })
     }else{
       logout()
+      router.replace('/')
     }
     setIsLoading(false)
   }

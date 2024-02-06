@@ -1,4 +1,5 @@
 import { IPaymentWay, IProvider } from '@/interfaces/provider'
+import { IAnswer, IQuestion, ISurvey } from '@/interfaces/survey';
 import { createContext } from 'react'
 
 interface ContextProps{
@@ -7,10 +8,13 @@ interface ContextProps{
   provider:IProvider | undefined;
   providers:IProvider[];
   paymentWays:IPaymentWay[]
+  answers:IAnswer[];
+  questions:IQuestion[];
 
-  setProvider: (payload: IProvider | undefined) => Promise<void>;
-  setProviders: (payload: IProvider[]) => Promise<void>;
-  postProvider: (provider: IProvider) => Promise<boolean>
+  setProvider: (payload: IProvider | undefined) => void;
+  setProviders: (payload: IProvider[]) => void;
+  postProvider: (payload: IProvider) => Promise<boolean>;
+  postSurvey: (payload: ISurvey) => Promise<boolean>;
 }
 
 export const ProvidersContext = createContext({} as ContextProps)

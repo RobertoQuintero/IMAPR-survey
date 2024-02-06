@@ -60,3 +60,19 @@ export const validateTokenRequest = async (): Promise<AuthResponse> => {
     });
   return response;
 };
+
+
+export const returnArray = <T extends object,K extends keyof T>(payload:T,data:T,array:T[],id:K):T[]=>{
+  let newArray=[]
+  if(payload[id]){
+    newArray=array.map(item=>{
+      if(item[id]===payload[id]){
+        return data
+      }
+      return item
+    })
+  }else{
+    newArray=[...array,data]
+  }
+  return newArray
+};

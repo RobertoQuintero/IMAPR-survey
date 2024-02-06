@@ -1,4 +1,4 @@
-import { IPaymentWay, IProvider } from '@/interfaces'
+import { IAnswer, IPaymentWay, IProvider, IQuestion } from '@/interfaces'
 import { ProvidersState } from './ProvidersProvider'
 
 type ProvidersActionType=
@@ -7,6 +7,8 @@ type ProvidersActionType=
         | {type:'[Providers] - setProviders',payload:IProvider[] }  
         | {type:'[Providers] - setError',payload:string | undefined }  
         | {type:'[Providers] - setPaymentWays',payload:IPaymentWay[] }  
+        | {type:'[Providers] - setQuestions',payload:IQuestion[] }  
+        | {type:'[Providers] - setAnswers',payload:IAnswer[] }  
         
 export const providersReducer = (state:ProvidersState,action:ProvidersActionType):ProvidersState => {
   
@@ -36,6 +38,18 @@ export const providersReducer = (state:ProvidersState,action:ProvidersActionType
       return {
         ...state,
         paymentWays:action.payload
+      }
+
+    case '[Providers] - setQuestions':
+      return {
+        ...state,
+        questions:action.payload
+      }
+
+    case '[Providers] - setAnswers':
+      return {
+        ...state,
+        answers:action.payload
       }
 
     default:

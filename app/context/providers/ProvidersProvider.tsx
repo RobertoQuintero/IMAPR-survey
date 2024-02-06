@@ -3,6 +3,8 @@ import { ProvidersContext } from './ProvidersContext';
 import { providersReducer } from './providersReducer'
 import { IPaymentWay, IProvider } from '@/interfaces';
 import { getProvidersRequest, postProvidersRequest } from './requestProvider';
+import { IAnswer, IQuestion, ISurvey } from '@/interfaces/survey';
+import { returnArray } from '../auth/authRequest';
 
 interface Props{
   children:JSX.Element|JSX.Element[]
@@ -14,6 +16,8 @@ export interface ProvidersState{
   provider:IProvider | undefined;
   providers:IProvider[],
   paymentWays:IPaymentWay[]
+  answers:IAnswer[];
+  questions:IQuestion[];
   }
 
 const Providers_INITIAL_STATE:ProvidersState={
@@ -21,7 +25,9 @@ const Providers_INITIAL_STATE:ProvidersState={
   providersError:undefined,
   provider:undefined,
   providers:[],
-  paymentWays:[]
+  paymentWays:[],
+  answers:[],
+  questions:[]
 }
 
 export const ProvidersProvider = ({children}:Props) => {
@@ -31,84 +37,116 @@ export const ProvidersProvider = ({children}:Props) => {
     getResources()
   }, [])
   
-
-  const setLoading = async(payload:boolean) =>{
+  const setIsLoading =(payload:boolean) =>{
      dispatch({
       type:'[Providers] - setLoading',
       payload
      })
   };
-  const setError = async(payload:string | undefined) =>{
+  const setError =(payload:string | undefined) =>{
      dispatch({
       type:'[Providers] - setError',
       payload
      })
   };
 
-  const setProvider = async(payload:IProvider | undefined) =>{
+  const setProvider =(payload:IProvider | undefined) =>{
      dispatch({
       type:'[Providers] - setProvider',
       payload
      })
   };
 
-  const setProviders = async(payload:IProvider[]) =>{
+  const setProviders =(payload:IProvider[]) =>{
      dispatch({
       type:'[Providers] - setProviders',
       payload
      })
   };
-  const setPaymentWays = async(payload:IPaymentWay[]) =>{
+  const setPaymentWays =(payload:IPaymentWay[]) =>{
      dispatch({
       type:'[Providers] - setPaymentWays',
       payload
      })
   };
 
-  const getResources = async() =>{
-    setLoading(false)
-     Promise.all([
-      getProvidersRequest('/catalog/payment_ways'),
-      getProvidersRequest('/providers')
-     ]).then(resp=>{
-      setPaymentWays(resp[0].data as IPaymentWay[])
-      setProviders(resp[1].data as IProvider[])
-     }).catch(error=>{
-      console.log(error)
-      setError('Error al cargar los datos')
-      setLoading(false)
+  const setQuestions =(payload:IQuestion[]) =>{
+     dispatch({
+      type:'[Providers] - setQuestions',
+      payload
      })
   };
 
-  const postProvider = async(provider:IProvider):Promise<boolean> =>{
-    setLoading(true)
-    const {ok,data}= await postProvidersRequest('/providers',provider)
-    let newProviders:IProvider[]=[]
-    if(ok){
-      if(provider.id_provider){
-        newProviders= state.providers.map(p=>{
-         if(p.id_provider=== provider.id_provider){
-           return data as IProvider
-         }
-         return p
-       })
-     }else{
-       newProviders=[data as IProvider,...state.providers]
-     }
-     setProviders(newProviders)
-    }else{
-    setError(data as string)
-    }
-    setLoading(false)
-    return ok
+  const setAnswers =(payload:IAnswer[]) =>{
+     dispatch({
+      type:'[Providers] - setAnswers',
+      payload
+     })
   };
+
+  const getResources = async() =>{
+    setIsLoading(false)
+     Promise.all([
+      getProvidersRequest('/catalog/payment_ways'),
+      getProvidersRequest('/providers'),
+      getProvidersRequest('/catalog/questions'),
+      getProvidersRequest('/catalog/answers'),
+     ]).then(resp=>{
+      setPaymentWays(resp[0].data as IPaymentWay[])
+      setProviders(resp[1].data as IProvider[])
+      setQuestions(resp[2].data as IQuestion[])
+      setAnswers(resp[3].data as IAnswer[])
+     }).catch(error=>{
+      console.log(error)
+      setError('Error al cargar los datos')
+      setIsLoading(false)
+     })
+  };
+
+  const postProvider = async(payload:IProvider):Promise<boolean> =>
+    getPostLoadingOrError('/providers',setProviders,payload,state.providers,'id_provider',true)
+
+    
+    const postSurvey = async(payload:ISurvey) =>{
+        setIsLoading(true)
+         const {ok,data}=await postProvidersRequest(`/surveys`,payload)
+         if(ok){
+          console.log(data)
+         }
+         else{
+          setError(data as string)
+         }
+         setIsLoading(false)
+         return ok
+      };
+
+  const getPostLoadingOrError = async<T,K extends keyof T>(
+    endpoint:string,setState:(payload: T[]) => void,payload?:T,state?:T[],id?:K,wich?:boolean
+ ) =>{
+ setError(undefined)
+ setIsLoading(true)
+ const {ok,data}= wich ? await  postProvidersRequest(endpoint,payload): await getProvidersRequest(endpoint)
+ if(ok){
+    wich
+       ?setState(returnArray(payload as object,data as object,state as object[],id as never) as T[])
+       :setState(data as T[])
+ }
+ else{
+  setError(data as string)
+ }
+ setIsLoading(false)
+ return ok
+};
+
+
 
   return (
     <ProvidersContext.Provider value={{
       ...state,
       setProvider,
       setProviders,
-      postProvider
+      postProvider,
+      postSurvey
     }}>
       {children}
     </ProvidersContext.Provider>

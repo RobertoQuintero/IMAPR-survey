@@ -1,9 +1,14 @@
 import belisarioApi from "@/database/apis";
-import { IProvider } from "@/interfaces";
+import { IAnswer, IProvider, IQuestion } from "@/interfaces";
 
 interface ProvidersResponse {
   ok: boolean;
-  data: IProvider[] | IProvider | string;
+  data: 
+        IProvider[] 
+        | IProvider 
+        | string
+        | IQuestion[]
+        | IAnswer[]
 }
 
 export const getProvidersRequest = async (
@@ -23,9 +28,9 @@ export const getProvidersRequest = async (
   return response;
 };
 
-export const postProvidersRequest = async (
+export const postProvidersRequest = async <T>(
   url: string,
-  body:IProvider
+  body:T
 ): Promise<ProvidersResponse> => {
   let response = {} as ProvidersResponse;
   await belisarioApi
