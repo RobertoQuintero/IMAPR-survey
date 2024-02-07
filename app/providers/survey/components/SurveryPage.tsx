@@ -20,7 +20,7 @@ const SurveryPage = () => {
   };
 
   const onPost = async() =>{
-      let arr=[...newAnswers]
+      let arr=[...newAnswers].sort((a,b)=>a.id_question-b.id_question)
       if(arr.length!==7)return
      const newSurvey={
       id_survey:0,
@@ -38,6 +38,7 @@ const SurveryPage = () => {
      } as ISurvey
 
     //  console.log(newSurvey  )
+    //  console.log(arr)
     //  return
 
      const ok=await postSurvey(newSurvey)
@@ -50,6 +51,7 @@ const SurveryPage = () => {
   return (
   <>
   <BackButton/>
+    <h4 style={{textAlign:'center',padding:'0 0 1rem'}}>{provider?.name}</h4>
     <div>
       {
         questions.map(q=>(
