@@ -1,8 +1,7 @@
 'use client'
-import { BackButton, EmptyPage, LoadingComponent } from '@/app/components'
+import { BackButton, EmptyPage } from '@/app/components'
 import AppModal from '@/app/components/AppModal'
 import { ProvidersContext } from '@/app/context/providers/ProvidersContext'
-import { UiContext } from '@/app/context/ui/UiContext'
 import { Button, MenuItem, TextField } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { useContext, useEffect, useState } from 'react'
@@ -11,8 +10,7 @@ import { IProvider } from '@/interfaces'
 import Link from 'next/link'
 
 const SurveyProvidersPage = () => {
-  const {toggleModal} = useContext(UiContext)
-  const  {setActionString,providers,setProvider,surveys,surveyEntry,getSurveys,providersLoading}= useContext(ProvidersContext)
+  const  {providers,setProvider,surveys,surveyEntry,getSurveys}= useContext(ProvidersContext)
   const router= useRouter()
   const newProviders = () =>{
     const array=[] as IProvider[]
@@ -33,10 +31,6 @@ const SurveyProvidersPage = () => {
   //   return <LoadingComponent/>
   // }
   const [newProvider, setNewProvider] = useState('')
-
-  const onClick = () =>{
-     
-  };
 
   return (
     <>

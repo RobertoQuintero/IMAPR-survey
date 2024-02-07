@@ -1,5 +1,5 @@
 'use client'
-import { BackButton, DeleteComponent, EmptyPage } from '@/app/components'
+import { DeleteComponent, EmptyPage } from '@/app/components'
 import AppModal from '@/app/components/AppModal'
 import { ProvidersContext } from '@/app/context/providers/ProvidersContext'
 import { UiContext } from '@/app/context/ui/UiContext'
@@ -12,7 +12,7 @@ const SurveyEntriesPage = () => {
   const {toggleModal} = useContext(UiContext)
   const {surveyEntries,setSurveyEntry,actionString,providersError,providersLoading,surveyEntry,postSurveyEntry,setActionString} = useContext(ProvidersContext)
 
-  const onAdd = async() =>{
+  const onAdd = () =>{
     setActionString(undefined)
     setSurveyEntry(undefined)
      toggleModal()
@@ -20,7 +20,6 @@ const SurveyEntriesPage = () => {
 
   const onDelete = async() =>{
      const newEntry={...surveyEntry, status:false} as ISurveyEntry
-
      const ok=await postSurveyEntry(newEntry)
      if(ok){
       toggleModal()
@@ -30,7 +29,6 @@ const SurveyEntriesPage = () => {
   return (
     <>
      <div className='actionCreateContainer'>
-        {/* <BackButton/> */}
         <div></div>
         <Button 
           onClick={onAdd}

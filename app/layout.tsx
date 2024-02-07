@@ -5,16 +5,7 @@ import { Inter } from 'next/font/google';
 import { ContextElement } from './context/ContextElement';
 import { Navbar } from './components';
 
-
-
 const inter = Inter({subsets:['latin']})
-const mainStyle={
-  padding:'4rem 1rem 0',
-  width:'100%',
-  maxWidth:'1100px',
-  margin:'0 auto ',
-  height:'100vh'
-}
 
 export default function RootLayout({children}:{children:React.ReactNode}) {
   

@@ -17,7 +17,6 @@ export const CreateUpdateProvider = () => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<IProvider>()
 
@@ -141,25 +140,6 @@ export const CreateUpdateProvider = () => {
         error={!!errors.sales_agent}
         helperText={errors.sales_agent?.message}
           />
-      {/* <TextField
-        size="small"
-        sx={sx}
-        label='Régimen Fiscal'
-        defaultValue={values.id_tax_system}
-        {...register('id_tax_system')} 
-        select >
-        {
-          taxSystems.length
-          ?taxSystems.map(item=>(
-            <MenuItem 
-              key={item.id_tax_system} 
-              value={item.id_tax_system}>
-              {item.tax_system_name} ({item.tax_system_key})
-            </MenuItem>
-          ))
-          :<div></div>
-        }
-      </TextField> */}
       <div className="itemCardRow">
       <TextField
         size="small"
@@ -188,7 +168,6 @@ export const CreateUpdateProvider = () => {
         {...register('neighborhood')}
           />
            <TextField
-        // className={styles.cpInput}
         size="small"
         label='C.P.'
         placeholder="Código Postal"
@@ -246,25 +225,6 @@ export const CreateUpdateProvider = () => {
         />
         </div>  
       </div>
-      {/* <TextField
-        size="small"
-        sx={sx}
-        label='País'
-        defaultValue={values.id_country}
-        {...register('id_country')} 
-        select >
-        {
-          countries.length
-          ?countries.map(item=>(
-            <MenuItem 
-              key={item.id_country} 
-              value={item.id_country}>
-              {item.country_name}
-            </MenuItem>
-          ))
-          :<div></div>
-        }
-      </TextField> */}
       <div className="itemCardRow">
         <TextField
           size="small"
@@ -298,7 +258,6 @@ export const CreateUpdateProvider = () => {
           :'Guardar'
         }
       </Button>
-         
     </form>
   )
 }
