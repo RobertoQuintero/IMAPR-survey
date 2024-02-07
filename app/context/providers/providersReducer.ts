@@ -1,4 +1,4 @@
-import { IAnswer, IPaymentWay, IProvider, IQuestion } from '@/interfaces'
+import { IAnswer, IPaymentWay, IProvider, IQuestion, ISurvey, ISurveyEntry } from '@/interfaces'
 import { ProvidersState } from './ProvidersProvider'
 
 type ProvidersActionType=
@@ -9,6 +9,10 @@ type ProvidersActionType=
         | {type:'[Providers] - setPaymentWays',payload:IPaymentWay[] }  
         | {type:'[Providers] - setQuestions',payload:IQuestion[] }  
         | {type:'[Providers] - setAnswers',payload:IAnswer[] }  
+        | {type:'[Providers] - setSurveyEntries',payload:ISurveyEntry[] }  
+        | {type:'[Providers] - setSurveyEntry',payload:ISurveyEntry | undefined }  
+        | {type:'[Providers] - setSurveys',payload:ISurvey[] }  
+        | {type:'[Providers] - setActionString',payload:string | undefined }  
         
 export const providersReducer = (state:ProvidersState,action:ProvidersActionType):ProvidersState => {
   
@@ -50,6 +54,30 @@ export const providersReducer = (state:ProvidersState,action:ProvidersActionType
       return {
         ...state,
         answers:action.payload
+      }
+
+    case '[Providers] - setSurveys':
+      return {
+        ...state,
+        surveys:action.payload
+      }
+
+    case '[Providers] - setSurveyEntries':
+      return {
+        ...state,
+        surveyEntries:action.payload
+      }
+
+    case '[Providers] - setSurveyEntry':
+      return {
+        ...state,
+        surveyEntry:action.payload
+      }
+
+    case '[Providers] - setActionString':
+      return {
+        ...state,
+        actionString:action.payload
       }
 
     default:

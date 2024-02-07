@@ -1,12 +1,15 @@
 'use client'
+import { BackButton } from '@/app/components'
 import { ProvidersContext } from '@/app/context/providers/ProvidersContext'
 import { IAnswer, ISurvey } from '@/interfaces'
-import { Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
+import { Button, CircularProgress, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
+import { useRouter } from 'next/navigation'
 import React, { useContext, useState } from 'react'
 
 const SurveryPage = () => {
-  const {questions,answers,postSurvey} = useContext(ProvidersContext)
+  const {questions,answers,postSurvey,provider,surveyEntry,providersLoading} = useContext(ProvidersContext)
   const [newAnswers, setNewAnswers] = useState<IAnswer[]>([])
+  const router= useRouter()
   
   const onClick =(a:IAnswer) =>{
     if(newAnswers.find(n=>n.id_question===a.id_question)){
@@ -18,6 +21,7 @@ const SurveryPage = () => {
 
   const onPost = async() =>{
       let arr=[...newAnswers]
+      if(arr.length!==7)return
      const newSurvey={
       id_survey:0,
       created_at:new Date(),
@@ -29,21 +33,27 @@ const SurveryPage = () => {
       id_answer_6:arr[5].id_answer,
       id_answer_7:arr[6].id_answer,
       status:true,
-      id_provider:1
+      id_provider:provider?.id_provider,
+      id_survey_entry:surveyEntry?.id_survey_entry
      } as ISurvey
+
+    //  console.log(newSurvey  )
+    //  return
 
      const ok=await postSurvey(newSurvey)
      if(ok){
       console.log('done')
+      router.back()
      }
   };
 
   return (
   <>
+  <BackButton/>
     <div>
       {
         questions.map(q=>(
-          <FormControl>
+          <FormControl key={q.id_question}>
             <FormLabel>
               {q.description}
             </FormLabel>
@@ -65,11 +75,17 @@ const SurveryPage = () => {
         ))
       }
     </div>
-      <Button
+     <div style={{paddingBottom:'2rem',textAlign:'right'}}>
+     {
+      providersLoading
+        ? <CircularProgress/>
+        :<Button
         onClick={onPost}
         variant='contained'
         color='success'
         >Enviar</Button>
+     }
+     </div>
     </>
   )
 }

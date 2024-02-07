@@ -5,7 +5,7 @@ import { ProvidersProvider } from '../context/providers/ProvidersProvider'
 
 const links=[
   {href:'/providers',title:'Proveedores'},
-  {href:'/providers/survey',title:'Encuesta'},
+  {href:'/providers/survey_entries',title:'Encuesta'},
 ]
 
 const RootLayout = ({children}:{children:ReactNode}) => {

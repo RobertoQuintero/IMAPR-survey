@@ -26,4 +26,15 @@ export interface ISurvey {
   id_answer_5: number;
   id_answer_6: number;
   id_answer_7: number;
+  id_survey_entry:number;
+  total?:number;
+  provider?:string
+}
+
+export interface ISurveyEntry {
+  id_survey_entry: number;
+  created_at:      string | Date;
+  status:          boolean;
+  updated_date:    string | Date;
+  description:     string;
 }

@@ -1,5 +1,5 @@
 import belisarioApi from "@/database/apis";
-import { IAnswer, IProvider, IQuestion } from "@/interfaces";
+import { IAnswer, IProvider, IQuestion, ISurvey, ISurveyEntry } from "@/interfaces";
 
 interface ProvidersResponse {
   ok: boolean;
@@ -9,6 +9,9 @@ interface ProvidersResponse {
         | string
         | IQuestion[]
         | IAnswer[]
+        | ISurveyEntry[]
+        | ISurveyEntry
+        | ISurvey
 }
 
 export const getProvidersRequest = async (
