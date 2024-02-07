@@ -10,9 +10,10 @@ import { ISurveyEntry } from '@/interfaces'
 
 const SurveyEntriesPage = () => {
   const {toggleModal} = useContext(UiContext)
-  const {surveyEntries,setSurveyEntry,actionString,providersError,providersLoading,surveyEntry,postSurveyEntry} = useContext(ProvidersContext)
+  const {surveyEntries,setSurveyEntry,actionString,providersError,providersLoading,surveyEntry,postSurveyEntry,setActionString} = useContext(ProvidersContext)
 
   const onAdd = async() =>{
+    setActionString(undefined)
     setSurveyEntry(undefined)
      toggleModal()
   };
