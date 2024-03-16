@@ -1,12 +1,15 @@
 USE [IMAPR]
 GO
-/****** Object:  Schema [Auth]    Script Date: 11/11/2023 02:30:50 p. m. ******/
+/****** Object:  Schema [Auth]    Script Date: 16/03/2024 12:06:10 p. m. ******/
 CREATE SCHEMA [Auth]
 GO
-/****** Object:  Schema [Cat]    Script Date: 11/11/2023 02:30:50 p. m. ******/
+/****** Object:  Schema [Cat]    Script Date: 16/03/2024 12:06:10 p. m. ******/
 CREATE SCHEMA [Cat]
 GO
-/****** Object:  Table [Auth].[Users]    Script Date: 11/11/2023 02:30:50 p. m. ******/
+/****** Object:  Schema [REG]    Script Date: 16/03/2024 12:06:10 p. m. ******/
+CREATE SCHEMA [REG]
+GO
+/****** Object:  Table [Auth].[Users]    Script Date: 16/03/2024 12:06:10 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -27,10 +30,43 @@ CREATE TABLE [Auth].[Users](
  CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED 
 (
 	[id_user] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Cat].[Payment_ways]    Script Date: 11/11/2023 02:30:50 p. m. ******/
+/****** Object:  Table [Cat].[Answers]    Script Date: 16/03/2024 12:06:10 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [Cat].[Answers](
+	[id_answer] [tinyint] NOT NULL,
+	[id_question] [tinyint] NULL,
+	[description] [varchar](200) NULL,
+	[status] [bit] NULL,
+	[points] [tinyint] NULL,
+ CONSTRAINT [PK_Answers] PRIMARY KEY CLUSTERED 
+(
+	[id_answer] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [Cat].[Criterions]    Script Date: 16/03/2024 12:06:10 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [Cat].[Criterions](
+	[id_criterion] [tinyint] NOT NULL,
+	[description] [varchar](250) NULL,
+	[status] [bit] NULL,
+	[percentage] [decimal](5, 2) NULL,
+ CONSTRAINT [PK_Criterions] PRIMARY KEY CLUSTERED 
+(
+	[id_criterion] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [Cat].[Payment_ways]    Script Date: 16/03/2024 12:06:10 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -42,10 +78,10 @@ CREATE TABLE [Cat].[Payment_ways](
  CONSTRAINT [PK_Payment_ways] PRIMARY KEY CLUSTERED 
 (
 	[id_payment_way] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Cat].[Providers]    Script Date: 11/11/2023 02:30:50 p. m. ******/
+/****** Object:  Table [Cat].[Providers]    Script Date: 16/03/2024 12:06:10 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -75,10 +111,22 @@ CREATE TABLE [Cat].[Providers](
  CONSTRAINT [PK_Providers] PRIMARY KEY CLUSTERED 
 (
 	[id_provider] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Cat].[Roles]    Script Date: 11/11/2023 02:30:50 p. m. ******/
+/****** Object:  Table [Cat].[Questions]    Script Date: 16/03/2024 12:06:10 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [Cat].[Questions](
+	[id_question] [tinyint] NULL,
+	[description] [varchar](250) NULL,
+	[status] [bit] NULL,
+	[id_subcriterion] [tinyint] NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [Cat].[Roles]    Script Date: 16/03/2024 12:06:11 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -90,10 +138,27 @@ CREATE TABLE [Cat].[Roles](
  CONSTRAINT [PK_Roles] PRIMARY KEY CLUSTERED 
 (
 	[id_role] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [Cat].[Tax_systems]    Script Date: 11/11/2023 02:30:50 p. m. ******/
+/****** Object:  Table [Cat].[Subcriterions]    Script Date: 16/03/2024 12:06:11 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [Cat].[Subcriterions](
+	[id_subcriterion] [tinyint] NOT NULL,
+	[description] [varchar](200) NULL,
+	[id_criterion] [tinyint] NULL,
+	[status] [bit] NULL,
+	[percentage] [decimal](5, 2) NULL,
+ CONSTRAINT [PK_Subcriterions] PRIMARY KEY CLUSTERED 
+(
+	[id_subcriterion] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [Cat].[Tax_systems]    Script Date: 16/03/2024 12:06:11 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -106,26 +171,261 @@ CREATE TABLE [Cat].[Tax_systems](
  CONSTRAINT [PK_Tax_systems] PRIMARY KEY CLUSTERED 
 (
 	[id_tax_system] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [REG].[Survey_entries]    Script Date: 16/03/2024 12:06:11 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [REG].[Survey_entries](
+	[id_survey_entry] [int] NOT NULL,
+	[created_at] [datetime] NULL,
+	[status] [bit] NULL,
+	[updated_date] [datetime] NULL,
+	[description] [varchar](200) NULL,
+ CONSTRAINT [PK_Survey_entries] PRIMARY KEY CLUSTERED 
+(
+	[id_survey_entry] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [REG].[Surveys]    Script Date: 16/03/2024 12:06:11 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [REG].[Surveys](
+	[id_survey] [int] NOT NULL,
+	[id_provider] [int] NULL,
+	[status] [bit] NULL,
+	[created_at] [datetime] NULL,
+	[id_answer_1] [tinyint] NULL,
+	[id_answer_2] [tinyint] NULL,
+	[id_answer_3] [tinyint] NULL,
+	[id_answer_4] [tinyint] NULL,
+	[id_answer_5] [tinyint] NULL,
+	[id_answer_6] [tinyint] NULL,
+	[id_answer_7] [tinyint] NULL,
+	[id_survey_entry] [int] NULL,
+ CONSTRAINT [PK_Surveys] PRIMARY KEY CLUSTERED 
+(
+	[id_survey] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 INSERT [Auth].[Users] ([id_user], [id_role], [name], [email], [password], [phone], [address], [postal_code], [image_url], [created_at], [updated_at], [status]) VALUES (1, 1, N'Arely Herrera', N'arely@test.com', N'$2b$10$bgp9RG09rye83T8RvBXV6uQj06c.JobJS7QHSslrdX83g.uPRhOEe', N'7821385220', N'Calle Reforma Poza Rica Veracruz', N'93210', N'https://res.cloudinary.com/dmq9e2wuv/image/upload/v1697061904/belisario/ln1uxluznhfhzbxfoa8z.png', CAST(N'2023-11-10T21:45:28.433' AS DateTime), CAST(N'2023-11-10T21:45:28.433' AS DateTime), 1)
+GO
+INSERT [Auth].[Users] ([id_user], [id_role], [name], [email], [password], [phone], [address], [postal_code], [image_url], [created_at], [updated_at], [status]) VALUES (2, 3, N'Roberto Carlos Quintero Martinez', N'langdonhp435@gmail.com', N'$2b$10$yJe8zFbJn0y02cIW4pxpOe7eDouo8ZeyfjNbv2r8ChyPduWlFvUoy', N'7828802912', N'Rio Misantla manzana 11 lote 4 entre Rio Uxpanapa/Rio Jamapa', N'93230', N'https://res.cloudinary.com/dmq9e2wuv/image/upload/v1697061904/belisario/ln1uxluznhfhzbxfoa8z.png', CAST(N'2024-01-11T15:46:21.083' AS DateTime), CAST(N'2024-01-11T15:46:21.083' AS DateTime), 1)
+GO
+INSERT [Cat].[Answers] ([id_answer], [id_question], [description], [status], [points]) VALUES (1, 1, N'En un plazo de 1 a 3 días', 1, 10)
+GO
+INSERT [Cat].[Answers] ([id_answer], [id_question], [description], [status], [points]) VALUES (2, 1, N'En un plazo de 4 a 7 días', 1, 6)
+GO
+INSERT [Cat].[Answers] ([id_answer], [id_question], [description], [status], [points]) VALUES (3, 1, N'En un plazo mayor a 7 días', 1, 1)
+GO
+INSERT [Cat].[Answers] ([id_answer], [id_question], [description], [status], [points]) VALUES (4, 2, N'En un plazo de 1 a 3 días ', 1, 10)
+GO
+INSERT [Cat].[Answers] ([id_answer], [id_question], [description], [status], [points]) VALUES (5, 2, N'En un plazo de 4 a 7 días', 1, 7)
+GO
+INSERT [Cat].[Answers] ([id_answer], [id_question], [description], [status], [points]) VALUES (6, 2, N'En un plazo mayor a 7 días', 1, 5)
+GO
+INSERT [Cat].[Answers] ([id_answer], [id_question], [description], [status], [points]) VALUES (7, 2, N'No atiende una inconformidad o queja', 1, 1)
+GO
+INSERT [Cat].[Answers] ([id_answer], [id_question], [description], [status], [points]) VALUES (8, 3, N'Justo a tiempo o anticipado', 1, 10)
+GO
+INSERT [Cat].[Answers] ([id_answer], [id_question], [description], [status], [points]) VALUES (9, 3, N'Entrega con retraso de 1 a 3 días', 1, 7)
+GO
+INSERT [Cat].[Answers] ([id_answer], [id_question], [description], [status], [points]) VALUES (10, 3, N'Entrega con retraso de 4 a 7 días', 1, 5)
+GO
+INSERT [Cat].[Answers] ([id_answer], [id_question], [description], [status], [points]) VALUES (11, 3, N'Entrega con retraso mayor a 7 días', 1, 1)
+GO
+INSERT [Cat].[Answers] ([id_answer], [id_question], [description], [status], [points]) VALUES (12, 4, N'Entrega la cantidad exacta o mayor debidamente justificada', 1, 10)
+GO
+INSERT [Cat].[Answers] ([id_answer], [id_question], [description], [status], [points]) VALUES (13, 4, N'Entrega con faltante justificado que entrega en un plazo de 1 a 3 días', 1, 6)
+GO
+INSERT [Cat].[Answers] ([id_answer], [id_question], [description], [status], [points]) VALUES (14, 4, N'Entrega con faltante injustificado que no entrega posteriormente', 1, 1)
+GO
+INSERT [Cat].[Answers] ([id_answer], [id_question], [description], [status], [points]) VALUES (15, 5, N'Si cumplen con las especificaciones del cliente', 1, 10)
+GO
+INSERT [Cat].[Answers] ([id_answer], [id_question], [description], [status], [points]) VALUES (16, 5, N'No cumplen con las especificaciones del cliente', 1, 1)
+GO
+INSERT [Cat].[Answers] ([id_answer], [id_question], [description], [status], [points]) VALUES (17, 6, N'El bien o servicio es de mayor calidad y menor precio', 1, 10)
+GO
+INSERT [Cat].[Answers] ([id_answer], [id_question], [description], [status], [points]) VALUES (18, 6, N'El bien o servicio es de mayor calidad y mayor precio', 1, 7)
+GO
+INSERT [Cat].[Answers] ([id_answer], [id_question], [description], [status], [points]) VALUES (19, 6, N'El bien o servicio es de menor calidad y mayor precio', 1, 5)
+GO
+INSERT [Cat].[Answers] ([id_answer], [id_question], [description], [status], [points]) VALUES (20, 6, N'El bien o servicio es de menor calidad y menor precio', 1, 1)
+GO
+INSERT [Cat].[Answers] ([id_answer], [id_question], [description], [status], [points]) VALUES (21, 7, N'Si cumple con los requisitos legales y reglamentarios', 1, 10)
+GO
+INSERT [Cat].[Answers] ([id_answer], [id_question], [description], [status], [points]) VALUES (22, 7, N'No cumple con los requisitos legales y reglamentarios', 1, 1)
+GO
+INSERT [Cat].[Criterions] ([id_criterion], [description], [status], [percentage]) VALUES (1, N'Capacidad de respuesta', 1, CAST(25.00 AS Decimal(5, 2)))
+GO
+INSERT [Cat].[Criterions] ([id_criterion], [description], [status], [percentage]) VALUES (2, N'Entrega de bienes', 1, CAST(35.00 AS Decimal(5, 2)))
+GO
+INSERT [Cat].[Criterions] ([id_criterion], [description], [status], [percentage]) VALUES (3, N'Cumplimiento de requisitos', 1, CAST(40.00 AS Decimal(5, 2)))
 GO
 INSERT [Cat].[Payment_ways] ([id_payment_way], [description], [status]) VALUES (1, N'CONTADO', 1)
 GO
 INSERT [Cat].[Payment_ways] ([id_payment_way], [description], [status]) VALUES (2, N'CRÉDITO', 1)
 GO
-INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (1, N'IMA-PRO-0001', N'PERFILES DE FIERRO Y LÁMINA ATIYE S.A DE C.V', N'PFL981207AX5', N'Tubería, perfiles y materiales de acero y lámina', N'SANDY GARCÍA SANTIAGO JIMPENEZ', N'7822099934', N'ATIYE', 1, CAST(N'2023-11-11T19:11:40.387' AS DateTime), CAST(N'2023-11-11T20:02:45.993' AS DateTime), 2, 0, N'CARR. NACIONAL MEXICO-TUXPAN', N' PLAN DE AYALA', N'50', N'TIHUATLAN ', N'VERACRUZ', N'92900', 1, N'')
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (1, N'IMA-PRO-0001', N'PERFILES DE FIERRO Y LÁMINA ATIYE S.A DE C.V', N'PFL981207AX5', N'Tubería, perfiles y materiales de acero y lámina', N'SANDY GARCÍA SANTIAGO JIMPENEZ', N'7822099934', N'ATIYE', 1, CAST(N'2023-11-11T19:11:40.387' AS DateTime), CAST(N'2023-11-11T21:05:31.017' AS DateTime), 2, 0, N'CARR. NACIONAL MEXICO-TUXPAN', N' PLAN DE AYALA', N'50', N'TIHUATLAN ', N'VERACRUZ', N'92900', 1, N'')
 GO
 INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (2, N'IMA-PRO-0002', N'PINGOL S.A DE C.V', N'PIN890428VE7', N'Pintura', N'María Elisa Váquez Martínez', N'7821115341', N'COMEX', 1, CAST(N'2023-11-11T19:16:25.907' AS DateTime), CAST(N'2023-11-11T20:14:48.377' AS DateTime), 2, 0, N'BLVD. ADOLFO RUÍZ CORTINES', N'LA RUEDA', N'4499', N' POZA RICA DE HIDALGO', N'VERACRUZ', N'93306', 1, N'')
 GO
 INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (3, N'IMA-PRO-0003', N'FERRETERA Y MAQUINARIA POSADAS S.A DE C.V', N'FMP051110UB6', N'Ferretera y maquinaria', N'Mostrador', N'7828221873', N'CATORSA', 1, CAST(N'2023-11-11T20:13:02.627' AS DateTime), CAST(N'2023-11-11T20:13:02.627' AS DateTime), 1, 0, N'BLVD. ADOLFO RUÍZ CORTINES', N'27 DE SEPTIEMBRE', N'801-INTERIOR 4', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93320', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (4, N'IMA-PRO-0003', N'ACEROS Y MATERIALES ALBA S.A DE C.V', N'AMA920615NN5', N'ACERO Y MATERIALES DE CONSTRUCCION', N'ALMENDRA BAUTISTA BAUTISTA', N'7821310182', N'MATERIALES ALBA', 1, CAST(N'2023-12-03T05:17:26.120' AS DateTime), CAST(N'2023-12-03T05:17:26.120' AS DateTime), 2, 0, N'BLVD. ADOLFO RUÍZ CORTINES ', N'LA RUEDA', N'4507', N'POZA RICA DE HIDALGO VER', N'', N'93306', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (5, N'IMA-PRO-0005', N'AUTOZONE DE MEXICO S DE RL DE CV', N'AME970109GW0', N'Refacciones y accesorios para automóviles', N'Mostrador', N'7821116288', N'AUTOZONE', 1, CAST(N'2023-12-03T05:48:51.827' AS DateTime), CAST(N'2023-12-03T05:49:31.027' AS DateTime), 1, 0, N'CARR. POZA RICA - CAZONES KM 50-3721', N'', N'S/N', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93210', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (6, N'IMA-PRO-0006', N'GRUPO ROBLEDO S.A DE C.V', N'GRO840707BM3', N'PISOS Y AZULEJOS', N'ANA BELEM GARCIA JUAREZ', N'7822099345', N'INTERCERAMIC', 1, CAST(N'2023-12-03T05:53:48.293' AS DateTime), CAST(N'2023-12-03T05:53:48.293' AS DateTime), 1, 0, N'CARR. POZA RICA - CAZONES ', N'LA RUEDA', N'S/N', N'POZA RICA', N'VERACRUZ', N'93306', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (7, N'IMA-PRO-0007', N'COMERCIALIZADORA DE SERVICIOS BSV S.A DE C.V.', N'CSB070601T97', N'TUBERIA, PERFILES DE ACERO Y ACCESORIOS', N'DAVID OLVERA', N'5573703766', N'ACERO BSV', 0, CAST(N'2023-12-03T05:58:26.790' AS DateTime), CAST(N'2023-12-03T05:58:26.790' AS DateTime), 1, 0, N'PRADO NORTE, LOMAS DE CHAPULTEPEC I SECCION', N'', N'577', N'MIGUEL HIDALGO DISTRITO FEDERAL', N'MEXICO', N'11000', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (8, N'IMA-PRO-0008', N'OFELIA GARCÍA TREJO', N'GATO620401N89', N'CERCADOS E IMPERMEABILIZANTES', N'LUIS ALBERTO', N'7828266303', N'EL AGUILA', 1, CAST(N'2023-12-19T03:52:51.700' AS DateTime), CAST(N'2023-12-19T04:16:24.213' AS DateTime), 1, 0, N'BLVD. ADOLFO RUÍZ CORTINES', N'BENITO JUAREZ', N'1703', N'POZA RICA DE HIDALGO ', N'VERACRUZ', N'93310', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (9, N'IMA-PRO-0009', N'ELECTRICO S.A DE C.V', N'ELE781003H71', N'MATERIAL ELECTRICO', N'ELIZABETH BASILIO GONZALES', N'7821280826', N'ELECTRICO', 1, CAST(N'2023-12-19T04:15:23.033' AS DateTime), CAST(N'2023-12-19T04:15:23.033' AS DateTime), 1, 0, N'BLVD. ADOLFO RUIZ CORTINEZ', N'LAS PALMAS', N'1604', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93230', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (10, N'IMA-PRO-0010', N'HEMART DISTRIBUCIONES INDUSTRIALES', N'HDI130701E71', N'EQUIPO DE PROTECCION PERSONAL, SEGURIDAD INDUSTRIAL Y HERRAMIENTAS', N'ARACELI GARCIA CRUZ', N'7828240701', N'HEMART', 1, CAST(N'2023-12-19T04:20:00.040' AS DateTime), CAST(N'2023-12-19T04:20:00.040' AS DateTime), 2, 0, N'INGNACIO ALLENDE', N'27 DE SEPTIEMBRE', N'205', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93320', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (11, N'IMA-PRO-0011', N'LORENA RUTH ROSELLO LUNA', N'ROLL811013966', N'EQUIPO DE PROTECCION ', N'DANIELA', N'7821284669', N'GYSE', 1, CAST(N'2023-12-19T04:30:03.587' AS DateTime), CAST(N'2023-12-19T04:30:03.587' AS DateTime), 1, 0, N'AV BENITO JUAREZ', N'TAJIN', N'303', N'COATZINTLA', N'VERACRUZ', N'93330', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (12, N'IMA-PRO-0012', N'MARIA ANTONIA GONZALES SANCHEZ', N'GOSA7404206JA', N'EQUIPO DE PROTECCION PERSONAL, SEGURIDAD INDUSTRIAL Y HERRAMIENTAS', N'PERLA', N'7821459364', N'GASES INDUSTRIALES DE COATZINTLA', 1, CAST(N'2023-12-19T05:31:38.467' AS DateTime), CAST(N'2023-12-19T05:31:38.467' AS DateTime), 2, 0, N'AV ADOLFO LOPEZ MATEOS 2B', N'ADOLFO LOPEZ MATEOS', N'S/N', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93160', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (13, N'IMA-PRO-0013', N'ADA KARINA RAMIREZ ANTILLON', N'RAAA750913DI3', N'EQUIPO DE PROTECCION PERSONAL, SEGURIDAD INDUSTRIAL Y HERRAMIENTAS', N'OMAR RODRIGUEZ', N'7828232115', N'MEDESSA', 1, CAST(N'2023-12-19T05:44:01.020' AS DateTime), CAST(N'2023-12-19T05:44:01.020' AS DateTime), 2, 0, N'AV LAZARO CARDENAS COLEGIO PALMA SOLA', N'MORELOS', N'511', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93340', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (14, N'IMA-PRO-0014', N'ENERGY SUPPLY TEXAS S.A DE C.V', N'EST140210QW1', N'TUBERIA, PERFILES DE ACERO, VALVULAS Y ACCESORIOS EPP', N'VICTOR HUGO GUTIERREZ NAVA', N'7821044603', N'ENERGY', 1, CAST(N'2023-12-19T05:47:54.410' AS DateTime), CAST(N'2023-12-19T05:47:54.410' AS DateTime), 2, 0, N'SUCC. POZA RICA DE HIDALGO VER', N'S/N', N'S/N', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (15, N'IMA-PRO-0015', N'GLORIA DE LOS SANTOS VICENTE', N'SAVG7108182S3', N'FERRETERA Y TORNILLERIA', N'GILBERTO MARTINEZ RAMIREZ', N'7821390888', N'REYSA', 1, CAST(N'2023-12-19T05:50:47.877' AS DateTime), CAST(N'2023-12-19T05:50:47.877' AS DateTime), 1, 0, N'BLVD ADOLFO RUIZ CORTINEZ', N'LAS PALMAS', N'1622', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93230', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (16, N'IMA-PRO-0016', N'SUMINISTROS INDUSTRIALES DIAZ S DE R.L DE C.V', N'SID171012M36', N'FERRETERA, MAQUINARIA Y SUMINISTROS INDUSTRIALES', N'JANET GARCIA GARCIA', N'7821871162', N'TORNILLERIA DIAZ', 1, CAST(N'2023-12-19T05:55:46.823' AS DateTime), CAST(N'2023-12-19T05:55:46.823' AS DateTime), 1, 0, N'AV PUEBLA', N'PALMA SOLA', N'515', N'POZA RICA DE HIDALGO', N'VERACUZ', N'93320', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (17, N'IMA-PRO-0017', N'HOME DEPOT MEXICO S. DE R.L DE C.V', N'HDM001017AS1', N'MATERIAL DE CONSTRUCCION Y ACCESORIOS PARA EL HOGAR', N'MARCO', N'7821067614', N'HOME DEPOT', 1, CAST(N'2023-12-19T06:02:34.023' AS DateTime), CAST(N'2023-12-19T06:02:34.023' AS DateTime), 1, 0, N'CARR. POZA RICA CAZONES KM 50', N'REFORMA', N'S/N', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93210', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (18, N'IMA-PRO-0018', N'CENTRO DE DISTRIBUCION FO Y LAM S.A DE C.V', N'CDF130621U30', N'MATERIAL ELECTRICO', N'MOSTRADOR', N'7821459953', N'FOYLAM', 1, CAST(N'2023-12-19T06:05:25.643' AS DateTime), CAST(N'2023-12-19T06:05:25.643' AS DateTime), 1, 0, N'CARRETERA CAZONES ESQ CALLE VERANO', N'PRIMAVERA', N'S/N', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93308', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (19, N'IMA-PRO-0019', N'RAFAEL PEREA GOMEZ', N'PEGR791024143', N'FERRETERA Y MATERIAL DE CONSTRUCCION', N'MOSTRADOR', N'7821310875', N'PROACO', 1, CAST(N'2023-12-19T06:08:39.033' AS DateTime), CAST(N'2023-12-19T06:08:39.033' AS DateTime), 1, 0, N'CARR. A COATZINTLA ', N'DIVISION DE ORIENTE', N'24', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93350', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (20, N'IMA-PRO-0020', N'FERREPRECIOS S.A DE C.V', N'FER021118H76', N'FERRETERA Y TORNILLERIA', N'MIRIAM', N'7822224834', N'FERREPRECIOS', 0, CAST(N'2023-12-19T06:11:00.433' AS DateTime), CAST(N'2023-12-19T06:11:00.433' AS DateTime), 1, 0, N'BLVD ADOLFO RUIZ CORTINEZ', N'CAZONES', N'1616', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93230', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (21, N'IMA-PRO-0021', N'CARLOS GARCIA AGUILAR', N'GAAC6611109X8', N'FERRETERA Y TORNILLERIA', N'SALVADOR', N'7821117402', N'COL ROLL GARCIA ', 1, CAST(N'2024-01-03T04:29:38.467' AS DateTime), CAST(N'2024-01-03T04:29:38.467' AS DateTime), 1, 0, N'TECOLUTLA SAN MIGUEL', N'MECATEPEC', N'', N'TIHUTLAN', N'VERACRUZ', N'', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (22, N'IMA-PRO-0022', N'GIOVANI RAMOS', N'RARG8908107Q8', N'FERRETERA Y TORNILLERIA', N'MOSTRADOR', N'7825285500', N'TORNILLERIA INDEPENDENCIA', 1, CAST(N'2024-01-03T04:56:45.690' AS DateTime), CAST(N'2024-01-03T04:56:45.690' AS DateTime), 1, 0, N'BOULEVARD ADOLFO RUIZ CORTINEZ', N'INDEPENDENCIA', N'519', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93300', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (23, N'IMA-PRO-0023', N'ALBERTO CEBALLOS RODRIGUEZ', N'CERA710412LC8', N'FERRETERA Y TORNILLERIA', N'CARLOS UMALLA', N'7821564868', N'URREA', 1, CAST(N'2024-01-03T05:00:13.597' AS DateTime), CAST(N'2024-01-03T05:00:13.597' AS DateTime), 1, 0, N'POZO 174', N'MORELOS', N'04', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93340', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (24, N'IMA-PRO-0024', N'GRUPO FERRETERO DIAKONIA SA DE CV', N'GFD110512146', N'FERRETERA Y MAQUINARIA', N'GERARDO', N'7821049157', N'LA CASA TRUPER', 1, CAST(N'2024-01-03T05:05:03.597' AS DateTime), CAST(N'2024-01-03T05:05:03.597' AS DateTime), 1, 0, N'BOULEVARD PRIMAVERA ESQ HORTENSIA', N'PRIMAVERA', N'S/N', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93308', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (25, N' IMA-PRO-0025', N'ELECTRICA Y ELECTRONICA VIDESA S.A DE C.V', N'EEV8602156D7', N'MATERIAL ELECTRICO', N'LUIS AQUINO', N'', N'VIDESA', 0, CAST(N'2024-01-14T03:48:01.737' AS DateTime), CAST(N'2024-01-14T03:48:01.737' AS DateTime), 1, 0, N'AV 2.200', N'BENITO JUAREZ', N'7821881354', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93310', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (26, N'IMA-PRO-0026', N'SANDRA LORENA SANCHEZ LARIOS', N'SALS810525CA7', N'ARTICULOS DE LIMPIEZA', N'MOSTRADOR', N'7828221257', N'CLEAN MAX', 1, CAST(N'2024-01-14T04:06:56.873' AS DateTime), CAST(N'2024-01-14T04:06:56.873' AS DateTime), 1, 0, N'LAZARO CARDENAS', N'', N'S/N', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93300', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (27, N'IMA-PRO-0027', N'PROLIMP DEL CENTRO SA DE CV', N'PCE9104014L7', N'ARTICULOS DE LIMPIEZA', N'FABIOLA ALVAREZ', N'7821518544', N'PROLIMP', 1, CAST(N'2024-01-14T04:10:58.780' AS DateTime), CAST(N'2024-01-14T04:10:58.780' AS DateTime), 1, 0, N'CAZONES 1004-KM 51', N'CAZONES', N'S/N', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93210', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (28, N'IMA-PRO-0028', N'VALERIA GARCIA RIVERA', N'GARV931203KP6', N'SERVICIO MECANICO DIESEL', N'MARTIN CALDERON', N'7821009505', N'TALLER GARCIA', 1, CAST(N'2024-01-14T04:13:43.527' AS DateTime), CAST(N'2024-01-14T04:13:43.527' AS DateTime), 2, 0, N'AV INDEPENDENCIA', N'PLAN AYALA', N'89', N'TIHUATLAN', N'VERACRUZ', N'92912', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (29, N'IMA-PRO-0029', N'TRACTO TALLER TAJIN SA DE CV', N'TTT0501274S3', N'SERVICIO MECANICO DIESEL', N'PATRICIA VARGAS', N'7828263330', N'TRACTO TAJIN', 1, CAST(N'2024-01-14T04:17:03.557' AS DateTime), CAST(N'2024-01-14T04:17:03.557' AS DateTime), 2, 0, N'CARR POZA RICA', N'SAN ANDRES', N'S/N', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93160', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (30, N'IMA-PRO-0030', N'NANCY BEATRIZ FERRAL MORALES', N'FEMN870307R90', N'SERVICIO MECANICO AUTOMOTRIZ', N'HORACIO', N'7821235051', N'TALLER GAEL', 1, CAST(N'2024-01-14T04:20:29.860' AS DateTime), CAST(N'2024-01-14T04:20:29.860' AS DateTime), 2, 0, N'FRESNO', N'CHAPULTEPEC', N'908', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93240', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (31, N'IMA-PRO-0031', N'PRODUCTOS DE CARGA SA DE CV', N'PCA970204FK1', N'ACCESORIOS Y EQUIPOS DE IZAJE', N'FABIOLA', N'5526263013', N'PROCARGA', 1, CAST(N'2024-01-14T04:24:00.647' AS DateTime), CAST(N'2024-01-14T04:24:00.647' AS DateTime), 2, 0, N'CALZ. DE LAS ARMAS', N'INDUSTRIAL LAS ARMAS', N'130', N'TLALNEPANTLA', N'MEXICO', N'54080', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (32, N'IMA-PRO-0032', N'JOSE FLORIAN ALEJANDRO ALFARO ROCHA', N'AARF5705045S7', N'HULES, MANGUERAS Y CONEXIONES', N'MOSTRADOR', N'7821637911', N'HUMACO', 1, CAST(N'2024-01-14T04:27:08.873' AS DateTime), CAST(N'2024-01-14T04:27:08.873' AS DateTime), 1, 0, N'BLVD LAZARO CARDNEAS', N'MORELOS', N'403', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93340', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (33, N'IMA-PRO-0033', N'MARIA ISABEL ROCHA CANTON', N'ROCI580713I52', N'PRODUCTOS DE HULE AUTOMOTRIZ E INDUSTRIAL', N'MOSTRADOR', N'7821822093', N'PROVEEDORA DE HULES', 1, CAST(N'2024-01-14T04:30:37.863' AS DateTime), CAST(N'2024-01-14T04:30:37.863' AS DateTime), 1, 0, N'BLVD ADOLFO RUIZ CORTINEZ', N'LAS PALMAS', N'1614', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93230', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (34, N'IMA-PRO-0034', N'GOMSA CAMIONES SA DE CV', N'GCA950503PT4', N'SERVICIO MECANICO DIESEL', N'MIGUEL MANDONADO MORENO', N'2292649785', N'GOMSA-GRUVER', 0, CAST(N'2024-01-14T04:35:06.037' AS DateTime), CAST(N'2024-01-14T04:35:06.037' AS DateTime), 2, 0, N'CARR NACIONAL MEXICO-TUXPAN', N'LAZARO CARDENAS FRENTE A LA ENTRADA DEL AEROPUERTO', N'S/N', N'TIHUATLAN', N'VERACRUZ', N'82933', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (35, N'IMA-PRO-0035', N'OFFICE DEPOT SA DE CV', N'ODM950324V2A', N'SUMINISTROS DE OFICINA', N'ROSALINDA ALVARADO CASTELLANOS', N'7821066784', N'OFFICE DEPOT', 1, CAST(N'2024-01-14T04:39:21.073' AS DateTime), CAST(N'2024-01-14T04:39:21.073' AS DateTime), 2, 0, N'BLVD ADOLFO RUIZ CORTINEZ', N'MANUEL AVILA CAMACHO', N'1714', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93220', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (36, N'IMA-PRO-0036', N'VALVULAS Y MATERIALES DE ACERO S.A DE C.V', N'VMA1412034B7', N'TUBERIA, PERFILES DE ACERO, VALVULAS Y ACCESORIOS', N'BENITA CORONADO', N'8133933599', N'VYMA', 0, CAST(N'2024-02-08T03:42:17.803' AS DateTime), CAST(N'2024-02-08T03:42:17.803' AS DateTime), 1, 0, N'GRAL. FRANCISCO VILLA ', N'LOS ELIZONDO', N'207', N'CD GRAL ESCOBEDO ', N'NUEVO LEON', N'66050', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (37, N'IMA-PRO-0037', N'PLESA ANAHUAC Y CIAS S.A DE C.V ', N'PAC040303UY6', N'TUBERIA, PERFILES DE ACERO, VALVULAS Y ACCESORIOS', N'CLAUDIA GARCIA CONTRERAS', N'5510838611', N'PLESA', 0, CAST(N'2024-02-08T03:45:53.790' AS DateTime), CAST(N'2024-02-08T03:45:53.790' AS DateTime), 1, 0, N'AV VALLE DE LAS ALMENDRAS ', N'SAN FRANCISCO CHILPAN, TULTITLAN', N'66-O', N'MEXICO', N'MEXICO', N'54940', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (38, N'IMA-PRO-0038', N'ACEREXPRESS DEL SURESTE S.A DE C.V', N'ASU2207151AA', N'TUBERIA, PERFILES Y MATERIALES DE ACERO Y LAMINA', N'ERICKA', N'7822701931', N'PYLSA', 1, CAST(N'2024-02-08T03:48:53.780' AS DateTime), CAST(N'2024-02-08T03:48:53.780' AS DateTime), 1, 0, N'AV MIGUEL ALEMAN 1 A', N'ARTICULO', N'123', N'VERACRUZ', N'VERACRUZ', N'91947', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (39, N'IMA-PRO-0039', N'FIERROS Y LAMINAS S.A DE C.V', N'FLA6606257Z1', N'FERRETERA, PERFILES DE ACERO Y LAMINAS', N'MIGUEL ANGEL', N'7721288407', N'FIERROS Y LAMINAS', 1, CAST(N'2024-02-08T03:52:59.337' AS DateTime), CAST(N'2024-02-08T03:52:59.337' AS DateTime), 1, 0, N'AV 20 DE NOVIEMBRE ESQUINA C.14', N'CAZONES', N'S/N', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93230', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (40, N'IMA-PRO-0040', N'GALVANIZADORA NACIONAL S.A DE C.V', N'GNA340525A29', N'LAMINAS DE ACERO GALVANIZADAS', N'GUDELIA REYES', N'2294090103', N'GRUPO COBOS', 0, CAST(N'2024-02-08T04:00:43.137' AS DateTime), CAST(N'2024-02-08T04:00:43.137' AS DateTime), 1, 0, N'SUAREZ PEREDO', N'MANUEL CONTRERAS', N'23', N'VERACRUZ', N'VERACRUZ', N'91899', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (41, N'IMA-PRO-0041', N'NUEVA WAL MART DE MEXICO S. DE R.L DE C.V', N'NWM9709244W4', N'TIENDA DE CADENA Y ALMACEN DE AUTOSERVICIO', N'MOSTRADOR ', N'7821115443', N'WALMART', 1, CAST(N'2024-02-08T04:07:23.923' AS DateTime), CAST(N'2024-02-08T04:07:23.923' AS DateTime), 1, 0, N'CARRE POZA RICA-CAZONES 4706-KIOSCO-4120', N'LA RUEDA', N'S/N', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93306', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (42, N'IMA-PRO-0042', N'ERNESTO MARTINEZ KEDSNEY', N'MAKE710122K62', N'TUBERIA, PERFILES DE ACERO, VALVULAS Y ACCESORIOS', N'JULIA', N'7822246289', N'RHINO.', 0, CAST(N'2024-02-08T04:10:14.083' AS DateTime), CAST(N'2024-02-09T01:54:26.310' AS DateTime), 1, 0, N'FRANCISCO VILLA 1-D', N'FRACC. LOS ANGELES', N'S/N', N'COATZINTLA', N'VERACRUZ', N'93162', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (43, N'IMA-PRO-0043', N'FERNANDO CAZARES GARCIA', N'CAGF581021T46', N'MADERERIA', N'MOSTRADOR ', N'7761892246', N'MADERERIA "EL AVALO"', 1, CAST(N'2024-02-09T01:58:00.333' AS DateTime), CAST(N'2024-02-09T01:58:00.333' AS DateTime), 1, 0, N'BLVD. ADOLFO RUIZ CORTINEZ', N'CAZONES', N'#1302', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93230', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (44, N'IMA-PRO-0044', N'MARIO APIPILHUASCO MONROY', N'AIMM8507275LA', N'MADERERIA', N'MARIO APIPILHUASCO', N'7828221176', N'MADERERIA MEXICO', 0, CAST(N'2024-02-09T02:00:35.933' AS DateTime), CAST(N'2024-02-09T02:00:35.933' AS DateTime), 1, 0, N'CARRETERA A COATZINTLA KM 1.5', N'FRACCIONAMIENTO JARDINES ', N'S/N', N'POZA RICA ', N'VERACRUZ', N'93369', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (45, N'IMA-PRO-0045', N'ANA MARIA BARRIOS VARGAS ', N'BAVA720725IF7', N'REFACCIONES Y ACCESORIOS PARA AUTOMOVILES ', N'MOSTRADOR ', N'7821446218', N'EL CEPILLO', 1, CAST(N'2024-02-09T02:02:56.830' AS DateTime), CAST(N'2024-02-09T02:02:56.830' AS DateTime), 1, 0, N'BLVD RUIZ CORTINEZ ', N'', N'#100', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93300', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (46, N'IMA-PRO-0046', N'PROVEEDORA DE PINTURAS DEL GOLFO S.A DE C.V', N'PPG000901A12', N'PINTURA Y RECUBRIMIENTOS', N'MOSTRADOR', N'7838353891', N'3M', 1, CAST(N'2024-02-09T02:14:26.730' AS DateTime), CAST(N'2024-02-09T02:14:26.730' AS DateTime), 1, 0, N'BLVD ADOLFO RUIZ CORTINEZ', N'CHAPULTEPEC', N'#806-A', N'', N'', N'93240', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (47, N'IMA-PRO-0047', N'ELECTRICA SAN MIGUEL DE MEXICO S.A DE C.V', N'ESM831024PX0', N'MATERIAL ELECTRICO', N'ANTONIO ARAUJO', N'5535566042', N'ELECTRICA SAN MIGUEL', 1, CAST(N'2024-02-09T02:22:07.230' AS DateTime), CAST(N'2024-02-09T02:22:07.230' AS DateTime), 1, 0, N'ERMITA IZTAPALAPA', N'EL PRADO IZTAPALAPA', N'#111', N'CIUDAD DE MEXICO', N'CDMX', N'09480', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (48, N'IMA-PRO-0048', N'RECO CERO S.A DE C.V', N'RCE131218IF3', N'RECOLECCION DE RESIDUOS SOLIDOS URBANOS, RESIDUOS DE MANEJO ESPECIAL Y RESIDUOS PELIGROSOS', N'ENRIQUE GABRIEL RODRIGUEZ MONTALVO', N'7838395206', N'RECOCERO', 1, CAST(N'2024-02-09T02:57:28.010' AS DateTime), CAST(N'2024-02-09T02:57:28.010' AS DateTime), 1, 0, N'CARRETERA TIERRA BLANCA FRIJOLILLO', N'TIERRA BLANCA ', N'0 210', N'TUXPAN', N'VERACRUZ', N'', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (49, N'IMA-PRO-0049', N'ANA DENISSE CAMPOS RODRIGUEZ', N'CARA780206UG7', N'SUMINISTRI DE SANITARIOS PORTATILES, RECOLECCION DE RESIDUOS SOLIDOS URBANOS NO PELIGROSOS, LAVAMANOS PORTATILES Y RECOLECCION DE AGUAS RESIDUALES.', N'DANIELA', N'7831192530', N'SANICERO', 0, CAST(N'2024-02-09T03:01:05.587' AS DateTime), CAST(N'2024-02-09T03:01:05.587' AS DateTime), 1, 0, N'CAMINO A FRIJOLILLO KM 0.210', N'TIERRA BLANCA', N'S/N', N'TUXPAN', N'VERCRUZ', N'', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (50, N'IMA-PRO-0050', N'EQUIPOS Y SOLDADURAS RAFE S.A DE C.V', N'ACT6808066SA', N'EQUIPO DE SOLDADURA', N'CONCEPCION ESPARZA ', N'8112771733', N'RAFE', 0, CAST(N'2024-02-09T03:04:20.213' AS DateTime), CAST(N'2024-02-09T03:04:20.213' AS DateTime), 1, 0, N'CARRETERA MIGUEL ALEMAN KM 14.2', N'BODEGA 7 EJIDO EL MEZQUITAL', N'', N'APODACA NUEVO LEON', N'MEXICO', N'66630', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (51, N'IMA-PRO-0051', N'LA PALOMA COMPAÑIA DE METALES S.A DE C.V', N'PME760707KW3', N'ACETAL, PTFE, ALUMINIO, BRONCE, CELORON, COBRE, LATON, NYLOMAQ, PLOMO, POLYMAQ, PVC, SOLDADURA. ', N'CARMEN DELIA AGUILAR ', N'4423946247', N'LA PALOMA', 1, CAST(N'2024-02-09T03:08:54.183' AS DateTime), CAST(N'2024-02-09T03:08:54.183' AS DateTime), 1, 0, N'AV. SAN LUIS TLATILCO 8 PARQ INDUSTRIAL', N'NAUCALPAN', N'', N'MEXICO', N'MEXICO', N'53489', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (52, N'IMA-PRO-0052', N'JOSE MIGUEL FUENTES SANTIAGO', N'FUSM830516AFA', N'METALES NO FERROSOS: SOLERA DE COBRE, BARRA DE COBRE, LAMINA DE ALUMINIO, PLACA DE ALUMINIO, LAMINA DE ACERO INOXIDABLE.', N'SANDRA FUENTES', N'5544472015', N'METALMEX', 0, CAST(N'2024-02-09T03:17:11.697' AS DateTime), CAST(N'2024-02-09T03:17:11.697' AS DateTime), 1, 0, N'CALLE RIO SUCHIATE 4, MZA ', N'COL. PRADOS DE IXTACALA 1A', N'48', N'ATIZAPAN DE ZARAGOZA ', N'MEXICO', N'52928', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (53, N'IMA-PRO-0053', N'GRUPO DEGANMEX', N'GDE130506Q68', N'EQUIPO DE SOLDADURA ', N'DANIEL DE SOLDADURA', N'2222209340', N'DEGANMEX', 0, CAST(N'2024-02-09T03:21:08.323' AS DateTime), CAST(N'2024-02-09T03:21:08.323' AS DateTime), 1, 0, N'BLVD 5 DE MAYO', N'SANTA MARIA PUEBLA', N'#4412', N'PUEBLA', N'PUEBLA ', N'000', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (54, N'IMA-PRO-0054', N'COMERCIALIZADORA FARMACEUTICA DE CHIAPAS S.A.P.I DE C.V', N'CFC110121742', N'FARMACIA', N'MOSTRADOR', N'8007112222', N'FARMACIA DEL AHORRO', 0, CAST(N'2024-02-09T03:24:37.437' AS DateTime), CAST(N'2024-02-09T03:24:37.437' AS DateTime), 1, 0, N'BLVD ADOLFO RUIZ CORTINEZ Y BERMUDEZ', N'', N'S/N', N'', N'', N'93340', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (55, N'IMA-PRO-0055', N'FARMACIA GUADALAJARA ', N'FGU830930PD3', N'FARMACIA', N'MOSTRADOR ', N'N/A', N'FARMACIA GUADALAJARA ', 1, CAST(N'2024-02-09T03:26:39.823' AS DateTime), CAST(N'2024-02-09T03:26:39.823' AS DateTime), 1, 0, N'NOCHE BUENA 21', N'', N'S/N', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93398', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (56, N'IMA-PRO-0056', N'LABORATORIO LISTER CENTROMEDICO DE TAMPICO S.A DE C.V', N'LLC890327GD6', N'LABORATORIO CLINICO', N'JOES DOMINGUEZ APARICIO', N'S/N', N'LISTER', 1, CAST(N'2024-02-09T03:30:07.750' AS DateTime), CAST(N'2024-02-09T03:30:07.750' AS DateTime), 1, 0, N'BLVD LAZARO CARDENAS ', N'COL.MORELOS', N'#821', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (57, N'IMA-PRO-0057', N'LABORATORIO SONI S.A DE C.V ', N'LSO990331G94', N'LABORATORIO CLINICO', N'MOSTRADOR ', N'7828235026', N'SONY', 0, CAST(N'2024-02-09T03:32:52.493' AS DateTime), CAST(N'2024-02-09T03:32:52.493' AS DateTime), 1, 0, N'BLVD RUIZ CORTINEZ 1615-B', N'COL. BENITO JUAREZ', N'', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93310', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (58, N'IMA-PRO-0058', N'ROCIO ESCOBAR MARTINEZ ', N'S/N', N'LABORATORIO CLINICO', N'MIREYA MENDOZA ', N'7821457665', N'MEDICA', 0, CAST(N'2024-02-09T03:36:30.513' AS DateTime), CAST(N'2024-02-09T03:36:30.513' AS DateTime), 2, 0, N'BLVD. ADOLFO RUIZ CORTINEZ ', N'BENITO JUAREZ ', N'1213', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93310', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (59, N'IMA-PRO-0059', N'UNIFORMES TAMPICO S.A DE C.V ', N'UTA820628TV3', N'UNIFORMES Y OVEROLES INDUSTRIALES ', N'VERONICA ', N'7821344840', N'UNITAM', 0, CAST(N'2024-02-09T03:56:54.957' AS DateTime), CAST(N'2024-02-09T03:56:54.957' AS DateTime), 1, 0, N'AV BENITO JUAREZ 102-A', N'27 DE SEPTIEMBRE ', N'', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93320', 1, N'')
+GO
+INSERT [Cat].[Providers] ([id_provider], [key_string], [legal_name], [tax_id], [description], [sales_agent], [phone], [name], [status], [created_at], [updated_at], [id_payment_way], [rank], [street], [neighborhood], [exterior], [city], [state], [zip], [id_tax_system], [email]) VALUES (60, N'IMA-PRO-0060', N'CLUB SIGLO XX1 S.A DE C.V', N'CSX970630UAA', N'IMPRESIONES DIGITALES, SEÑALIENTOS, LONAS PUBLICITARIAS ', N'BRENDALI', N'7821456723', N'SIGLO XXI', 1, CAST(N'2024-02-09T04:00:35.917' AS DateTime), CAST(N'2024-02-09T04:00:35.917' AS DateTime), 1, 0, N'BLVD. ADOLFO RUIZ CORTINES ', N'CAZONES', N'1406', N'POZA RICA DE HIDALGO', N'VERACRUZ', N'93230', 1, N'')
+GO
+INSERT [Cat].[Questions] ([id_question], [description], [status], [id_subcriterion]) VALUES (1, N'¿En cuánto tiempo el proveedor entrega una cotización, después de que le fue solicitada?', 1, 1)
+GO
+INSERT [Cat].[Questions] ([id_question], [description], [status], [id_subcriterion]) VALUES (2, N'¿Cuánto tiempo tarda el proveedor en atender una inconformidad o queja?', 1, 2)
+GO
+INSERT [Cat].[Questions] ([id_question], [description], [status], [id_subcriterion]) VALUES (3, N'¿Cuál es el tiempo que tarda el proveedor en entregar un bien y/o prestar un servicio?', 1, 3)
+GO
+INSERT [Cat].[Questions] ([id_question], [description], [status], [id_subcriterion]) VALUES (4, N'¿El proveedor entrega la cantidad solicitada?', 1, 4)
+GO
+INSERT [Cat].[Questions] ([id_question], [description], [status], [id_subcriterion]) VALUES (5, N'¿Los bienes y/o servicio cumplen con las especificaciones del cliente?', 1, 5)
+GO
+INSERT [Cat].[Questions] ([id_question], [description], [status], [id_subcriterion]) VALUES (6, N'¿El bien o servicio tiene un balance entre calidad y precio?', 1, 6)
+GO
+INSERT [Cat].[Questions] ([id_question], [description], [status], [id_subcriterion]) VALUES (7, N'¿El bien o servicio cumple con los requisitos legales y reglamentarios?', 1, 7)
 GO
 INSERT [Cat].[Roles] ([id_role], [description], [status]) VALUES (1, N'SUPER-ADMIN', 1)
 GO
 INSERT [Cat].[Roles] ([id_role], [description], [status]) VALUES (2, N'ADMIN', 1)
 GO
 INSERT [Cat].[Roles] ([id_role], [description], [status]) VALUES (3, N'USER', 1)
+GO
+INSERT [Cat].[Subcriterions] ([id_subcriterion], [description], [id_criterion], [status], [percentage]) VALUES (1, N'Solicitud de presupuestos', 1, 1, CAST(50.00 AS Decimal(5, 2)))
+GO
+INSERT [Cat].[Subcriterions] ([id_subcriterion], [description], [id_criterion], [status], [percentage]) VALUES (2, N'Atención de inconformidades', 1, 1, CAST(50.00 AS Decimal(5, 2)))
+GO
+INSERT [Cat].[Subcriterions] ([id_subcriterion], [description], [id_criterion], [status], [percentage]) VALUES (3, N'Tiempo de entrega', 2, 1, CAST(50.00 AS Decimal(5, 2)))
+GO
+INSERT [Cat].[Subcriterions] ([id_subcriterion], [description], [id_criterion], [status], [percentage]) VALUES (4, N'Cantidad entrega', 2, 1, CAST(50.00 AS Decimal(5, 2)))
+GO
+INSERT [Cat].[Subcriterions] ([id_subcriterion], [description], [id_criterion], [status], [percentage]) VALUES (5, N'Especificaciones técnicas', 3, 1, CAST(35.00 AS Decimal(5, 2)))
+GO
+INSERT [Cat].[Subcriterions] ([id_subcriterion], [description], [id_criterion], [status], [percentage]) VALUES (6, N'Calidad y precio', 3, 1, CAST(35.00 AS Decimal(5, 2)))
+GO
+INSERT [Cat].[Subcriterions] ([id_subcriterion], [description], [id_criterion], [status], [percentage]) VALUES (7, N'Requisitos Legales', 3, 1, CAST(30.00 AS Decimal(5, 2)))
 GO
 INSERT [Cat].[Tax_systems] ([id_tax_system], [tax_system_key], [tax_system_name], [status]) VALUES (1, N'601', N'General de Ley Personas Morales', 1)
 GO
@@ -136,4 +436,84 @@ GO
 INSERT [Cat].[Tax_systems] ([id_tax_system], [tax_system_key], [tax_system_name], [status]) VALUES (4, N'603', N'Personas Morales con Fines no Lucrativos', 1)
 GO
 INSERT [Cat].[Tax_systems] ([id_tax_system], [tax_system_key], [tax_system_name], [status]) VALUES (5, N'611', N'Ingresos por Dividendos (socios y accionistas)', 1)
+GO
+INSERT [REG].[Survey_entries] ([id_survey_entry], [created_at], [status], [updated_date], [description]) VALUES (1, CAST(N'2024-02-07T20:12:00.470' AS DateTime), 1, CAST(N'2024-02-07T20:11:49.000' AS DateTime), N'Encuesta de febrero')
+GO
+INSERT [REG].[Survey_entries] ([id_survey_entry], [created_at], [status], [updated_date], [description]) VALUES (2, CAST(N'2024-02-07T21:34:11.433' AS DateTime), 1, CAST(N'2024-02-07T21:33:47.660' AS DateTime), N'encuesta marzo')
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (1, 1, 1, CAST(N'2024-02-07T20:12:26.207' AS DateTime), 1, 4, 8, 12, 15, 17, 21, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (2, 2, 1, CAST(N'2024-02-07T20:12:40.637' AS DateTime), 2, 5, 9, 13, 16, 18, 22, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (3, 3, 1, CAST(N'2024-02-07T20:13:04.773' AS DateTime), 3, 7, 11, 14, 16, 20, 22, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (4, 4, 1, CAST(N'2024-02-07T20:47:31.333' AS DateTime), 1, 5, 10, 13, 16, 19, 22, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (5, 5, 1, CAST(N'2024-02-07T20:47:52.677' AS DateTime), 1, 4, 8, 13, 15, 17, 21, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (6, 13, 1, CAST(N'2024-02-07T20:48:08.700' AS DateTime), 2, 5, 9, 13, 15, 18, 21, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (7, 6, 1, CAST(N'2024-02-07T20:48:36.247' AS DateTime), 2, 4, 9, 12, 15, 18, 21, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (8, 6, 1, CAST(N'2024-02-07T20:48:51.003' AS DateTime), 1, 4, 8, 12, 16, 17, 22, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (9, 7, 1, CAST(N'2024-02-07T20:49:03.213' AS DateTime), 2, 4, 8, 13, 15, 17, 22, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (10, 8, 1, CAST(N'2024-02-07T20:49:24.167' AS DateTime), 1, 4, 11, 12, 15, 17, 21, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (11, 9, 1, CAST(N'2024-02-07T20:49:37.243' AS DateTime), 2, 4, 8, 12, 15, 17, 22, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (12, 10, 1, CAST(N'2024-02-07T20:49:51.087' AS DateTime), 1, 4, 8, 12, 15, 17, 21, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (13, 11, 1, CAST(N'2024-02-07T20:50:06.693' AS DateTime), 1, 4, 8, 12, 15, 17, 21, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (14, 12, 1, CAST(N'2024-02-07T20:54:23.733' AS DateTime), 1, 4, 8, 12, 16, 18, 22, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (15, 14, 1, CAST(N'2024-02-07T20:54:35.423' AS DateTime), 1, 4, 8, 13, 15, 17, 21, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (16, 15, 1, CAST(N'2024-02-07T20:54:49.200' AS DateTime), 1, 5, 9, 16, 14, 20, 22, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (17, 16, 1, CAST(N'2024-02-07T20:55:01.047' AS DateTime), 1, 4, 8, 14, 16, 20, 22, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (18, 17, 1, CAST(N'2024-02-07T20:55:20.270' AS DateTime), 1, 4, 8, 12, 15, 17, 21, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (19, 18, 1, CAST(N'2024-02-07T20:55:47.120' AS DateTime), 1, 4, 8, 13, 15, 17, 22, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (20, 19, 1, CAST(N'2024-02-07T20:56:00.360' AS DateTime), 3, 7, 11, 14, 15, 17, 21, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (21, 20, 1, CAST(N'2024-02-07T20:56:13.217' AS DateTime), 2, 5, 9, 13, 16, 18, 21, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (22, 21, 1, CAST(N'2024-02-07T20:56:24.487' AS DateTime), 1, 4, 8, 12, 15, 17, 21, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (23, 22, 1, CAST(N'2024-02-07T20:56:39.063' AS DateTime), 1, 4, 8, 13, 16, 17, 21, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (24, 23, 1, CAST(N'2024-02-07T20:56:55.303' AS DateTime), 1, 4, 8, 12, 15, 17, 21, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (25, 24, 1, CAST(N'2024-02-07T20:57:14.783' AS DateTime), 1, 4, 8, 12, 16, 18, 22, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (26, 25, 1, CAST(N'2024-02-07T20:57:26.287' AS DateTime), 1, 4, 8, 12, 15, 17, 21, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (27, 26, 1, CAST(N'2024-02-07T20:57:37.977' AS DateTime), 1, 4, 8, 15, 14, 18, 22, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (28, 27, 1, CAST(N'2024-02-07T20:59:20.177' AS DateTime), 1, 5, 8, 13, 15, 17, 21, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (29, 28, 1, CAST(N'2024-02-07T20:59:35.587' AS DateTime), 2, 5, 9, 13, 15, 18, 21, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (30, 29, 1, CAST(N'2024-02-07T20:59:57.490' AS DateTime), 2, 5, 9, 13, 16, 19, 21, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (31, 30, 1, CAST(N'2024-02-07T21:11:36.223' AS DateTime), 2, 4, 11, 22, 20, 16, 14, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (32, 31, 1, CAST(N'2024-02-07T21:14:14.393' AS DateTime), 1, 4, 8, 15, 13, 17, 21, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (33, 32, 1, CAST(N'2024-02-07T21:14:49.863' AS DateTime), 22, 20, 16, 14, 11, 7, 3, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (34, 33, 1, CAST(N'2024-02-07T21:17:34.193' AS DateTime), 3, 7, 11, 14, 16, 20, 22, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (35, 34, 1, CAST(N'2024-02-07T21:22:58.677' AS DateTime), 1, 5, 10, 13, 16, 17, 21, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (36, 35, 1, CAST(N'2024-02-07T21:32:42.647' AS DateTime), 3, 7, 11, 14, 16, 20, 22, 1)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (37, 1, 1, CAST(N'2024-02-07T21:34:40.750' AS DateTime), 1, 4, 8, 12, 15, 17, 21, 2)
+GO
+INSERT [REG].[Surveys] ([id_survey], [id_provider], [status], [created_at], [id_answer_1], [id_answer_2], [id_answer_3], [id_answer_4], [id_answer_5], [id_answer_6], [id_answer_7], [id_survey_entry]) VALUES (38, 2, 1, CAST(N'2024-02-07T21:35:00.600' AS DateTime), 3, 7, 11, 14, 16, 20, 22, 2)
 GO
