@@ -16,7 +16,7 @@ export const POST = async(req:Request) =>{
     UPDATE REG.Survey_entries
     SET description='${description}',
         status='${status}',
-        updated_date='${updated_date}'
+        updated_date=GETDATE()
     WHERE id_survey_entry=${id_survey_entry}
     SELECT * FROM REG.Survey_entries WHERE id_survey_entry=${id_survey_entry}
   end
@@ -31,10 +31,10 @@ export const POST = async(req:Request) =>{
     )
     VALUES(
       @const,
-      '${created_at}',
+      GETDATE(),
       '${description}',
       '${status}',
-      '${updated_date}'
+      GETDATE()
     )
     SELECT * FROM REG.Survey_entries WHERE id_survey_entry=@const
   end

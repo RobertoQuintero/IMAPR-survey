@@ -34,7 +34,7 @@ export const RegisterForm = () => {
       >
       <p className={styles.formTitle}>Registro</p>
         <TextField
-          fullWidth
+          size='small'
           label='Nombre'
           placeholder="Nombre Apellidos" 
           type="text"
@@ -45,7 +45,7 @@ export const RegisterForm = () => {
           helperText={errors.name?.message}
           />
         <TextField
-          fullWidth
+          size='small'
           label='Email'
           placeholder="user@gmail.com" 
           type="email"
@@ -56,7 +56,7 @@ export const RegisterForm = () => {
           helperText={errors.email?.message}
           />
         <TextField
-          fullWidth
+          size='small'
           label='Password'
           placeholder="******" 
           type="password"
@@ -67,7 +67,7 @@ export const RegisterForm = () => {
           helperText={errors.password?.message}
           />
           <TextField
-          fullWidth
+          size='small'
           label='Dirección'
           placeholder="Calle,#,Colonia,C.P." 
           type="text"
@@ -79,6 +79,7 @@ export const RegisterForm = () => {
           />
         <div className={styles.flexPhone}>
           <TextField
+            size='small'
             label='C.P.'
             placeholder="Código Postal" 
             type="number"
@@ -89,7 +90,7 @@ export const RegisterForm = () => {
           helperText={errors.postal_code?.message}
             />
           <TextField
-            fullWidth
+            size='small'
             label='Teléfono'
             placeholder="782111222" 
             type="number"

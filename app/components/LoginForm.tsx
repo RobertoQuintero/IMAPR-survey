@@ -35,7 +35,7 @@ export const LoginForm = () => {
       className={styles.formContainer} >
       <p className={styles.formTitle} >Login</p>
       <TextField 
-        fullWidth
+        size='small'
         label='Email'
         placeholder="user@gmail.com" 
         type="email"
@@ -46,7 +46,7 @@ export const LoginForm = () => {
         helperText={errors.email?.message}
         />
       <TextField 
-        fullWidth
+        size='small'
         label='Password'
         placeholder="******" 
         type="password"

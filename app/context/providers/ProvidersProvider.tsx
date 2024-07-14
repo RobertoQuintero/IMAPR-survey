@@ -78,6 +78,21 @@ export const ProvidersProvider = ({children}:Props) => {
        return await  getPostLoadingOrError(`/surveys?id_survey_entry=${payload}`,setSurveys)
    };   
 
+   
+   const postSurveyEntryName = async(payload:ISurveyEntry):Promise<{ok:boolean,data:string|ISurveyEntry}> =>{
+       setIsLoading(true)
+        const {ok,data}=await postProvidersRequest(`/survey_entries`,payload)
+        if(ok){
+         setSurveyEntry(data as ISurveyEntry)
+         setSurveyEntries([data as ISurveyEntry,...state.surveyEntries])
+        }
+        else{
+         setError(data as string)
+        }
+        setIsLoading(false)
+        return {ok,data:data as ISurveyEntry}
+     };
+
     
     const postSurvey = async(payload:ISurvey) =>{
         setIsLoading(true)
@@ -196,7 +211,8 @@ export const ProvidersProvider = ({children}:Props) => {
       setSurveyEntry,
       postSurveyEntry,
       setActionString,
-      getSurveys
+      getSurveys,
+      postSurveyEntryName
     }}>
       {children}
     </ProvidersContext.Provider>

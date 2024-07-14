@@ -9,13 +9,14 @@ interface Props{
 }
 
 export const ProviderCard = ({provider}:Props) => {
-  const {setProvider} = useContext(ProvidersContext)
+  const {setProvider,setActionString} = useContext(ProvidersContext)
   const {toggleModal} = useContext(UiContext)
   const {legal_name,name,tax_id,sales_agent,phone,street,exterior,neighborhood,city,state,payment_way_name}= provider
 
-  const onClick = () =>{
-     setProvider(provider)
-     toggleModal()
+  const onClick = (word:string) =>{
+    setActionString(word)
+    setProvider(provider)
+    toggleModal()
   };
   return (
     <div className="itemCard">
@@ -41,9 +42,13 @@ export const ProviderCard = ({provider}:Props) => {
       </div>
       <div className="cardButtons">
         <Button 
-          onClick={onClick}
+          onClick={()=>onClick('EDIT')}
           size='small' 
           variant='outlined'>EDITAR</Button>
+        <Button 
+          onClick={()=>onClick('DELETE')}
+          size='small' 
+          variant='outlined' color="error">borrar</Button>
       </div>
     </div>
   )

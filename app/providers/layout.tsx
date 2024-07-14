@@ -4,8 +4,9 @@ import { CustomMenuLink } from '../components'
 import { ProvidersProvider } from '../context/providers/ProvidersProvider'
 
 const links=[
+  {href:'/providers/survey',title:'Encuesta'},
   {href:'/providers',title:'Proveedores'},
-  {href:'/providers/survey_entries',title:'Encuesta'},
+  {href:'/providers/survey_entries',title:'Resumen'},
 ]
 
 const RootLayout = ({children}:{children:ReactNode}) => {

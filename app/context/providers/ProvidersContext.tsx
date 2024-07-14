@@ -24,6 +24,7 @@ interface ContextProps{
   postSurveyEntry: (payload: ISurveyEntry) => Promise<boolean>;
   setActionString: (payload: string | undefined) => void;
   getSurveys: (payload: number) => Promise<boolean>;
+  postSurveyEntryName: (payload: ISurveyEntry) => Promise<{ok: boolean;data: string | ISurveyEntry;}>
 }
 
 export const ProvidersContext = createContext({} as ContextProps)

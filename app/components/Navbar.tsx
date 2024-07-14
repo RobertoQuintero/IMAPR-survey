@@ -36,7 +36,7 @@ export const Navbar = () => {
   
   return (
     <nav>
-      <AppBar sx={{zIndex:1000}} >
+      <AppBar sx={{zIndex:1000}} elevation={0}>
         <Toolbar sx={{ maxWidth:'1100px', width:'100%',margin:'0 auto'}} >
             <Link href='/' className="flexCenter" >
               <h3>IMAPR</h3>
@@ -53,8 +53,8 @@ export const Navbar = () => {
                   <Link
                     className={styles.menuLink}
                     style={style}
-                    href='/providers'>
-                  Proveedores
+                    href='/providers/survey'>
+                  Encuesta
                 </Link>
                 
                 </>
@@ -80,9 +80,7 @@ export const Navbar = () => {
                         onClick={onLogout}
                         variant="outlined" 
                         size="small">Salir</Button>
-                      :(<ButtonGroup 
-                        size='small' 
-                        aria-label="small outlined primary button group">
+                      :(<ButtonGroup size='small'>
                           <Button onClick={()=>openModal(false)}>login</Button>
                           <Button onClick={()=>openModal(true)}>signup</Button>
                       </ButtonGroup>)
